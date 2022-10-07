@@ -1,36 +1,26 @@
-﻿using Shell.DomainLayer.DataLayer;
-using Shell.DomainLayer.Gateways;
+﻿using Shell.DomainLayer.Gateways;
 using Shell.DomainLayer.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Shell.DomainLayer.DomainManagers
 {
-    internal class WeatherManager
+    internal class WeatherManager : DomainManagerBase
     {
-        readonly ServiceLocator _serviceLocator;
-
-        DataFacade? _dataFacade;
-        DataFacade TheDataFacade => _dataFacade ??= _serviceLocator.CreateDataFacade();
-
         WeatherGateway? _WeatherGateway;
         WeatherGateway TheWeatherGateway => _WeatherGateway ??= _serviceLocator.CreateWeatherGateway();
 
-        public WeatherManager(ServiceLocator serviceLocator)
+
+        public WeatherManager(ServiceLocator serviceLocator) : base(serviceLocator) {}
+
+        public IEnumerable<WeatherForcastDTO> GetForcast()
         {
-            _serviceLocator = serviceLocator;
+            return TheDataFacade.GetWeatherForcast("TX");
         }
 
-        public void GetForcast()
+        public async Task<string> GetWeatherAlertsAsync(string area)
         {
-            Task<string> wa = TheWeatherGateway.GetWeatherAlertsAsync("TX");
-        }
-
-        public WeatherForcastDTO GetAllBoardgames(AuthenticatedContext authContext)
-        {
-            return TheDataFacade.GetWeather("TX");
+            return await TheWeatherGateway.GetWeatherAlertsAsync(area);
         }
     }
 }

@@ -1,14 +1,12 @@
 ﻿using Shell.DomainLayer.DataLayer.DataManagers;
 using Shell.DomainLayer.Models;
+using System.Collections.Generic;
 
 namespace Shell.DomainLayer.DataLayer
 {
     internal sealed class DataFacade
     {
-        WeatherDataManager? _weatherDataManager;
-        WeatherDataManager TheWeatherDataManager => _weatherDataManager ??= new WeatherDataManager();
-
-        public WeatherForcastDTO GetWeather(string zone)
-            => TheWeatherDataManager.Getweather(zone);
+        public IEnumerable<WeatherForcastDTO> GetWeatherForcast(string zone)
+            => WeatherDataManager.GetWeather(zone);
     }
 }

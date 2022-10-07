@@ -12,7 +12,5 @@ namespace Shell.DomainLayer
         {
             _serviceLocator = serviceLocator;
         }
-
-
     }
 }
