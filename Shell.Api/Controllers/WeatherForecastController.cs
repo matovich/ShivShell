@@ -22,10 +22,15 @@ namespace Shell.Api.Controllers
             return Ok(forcast.Select(f => new WeatherForcastDTO(f)));
         }
 
-        [HttpGet("GetWeatherAlerts", Name = nameof(GetAlertsAsync))]
-        public async Task<ActionResult> GetAlertsAsync()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="area">Two-character state code.</param>
+        /// <returns></returns>
+        [HttpGet("GetWeatherAlerts{area}", Name = nameof(GetAlertsAsync))]
+        public async Task<ActionResult> GetAlertsAsync(string area)
         {
-            return Ok(await TheDomainFacade.GetWeatherAlertsAsync("TX"));
+            return Ok(await TheDomainFacade.GetWeatherAlertsAsync(area));
         }
     }
 }

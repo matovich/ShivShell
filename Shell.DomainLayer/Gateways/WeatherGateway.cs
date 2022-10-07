@@ -7,7 +7,7 @@ namespace Shell.DomainLayer.Gateways
 {
     internal class WeatherGateway
     {
-        static readonly Uri _baseUri = new Uri("https://api.weather.gov/alerts/active");
+        static readonly Uri _baseUri = new Uri("https://api.weather.gov/alerts/active/");
 
         readonly ServiceLocator _serviceLocator;
 
@@ -18,22 +18,22 @@ namespace Shell.DomainLayer.Gateways
 
         public async Task<string> GetWeatherAlertsAsync(string area)
         {
-            var urlEncodedArea = System.Uri.EscapeDataString(area);
-
-            var uri = new System.Uri(_baseUri, $"?area={urlEncodedArea}");
-
+            var urlEncodedArea = Uri.EscapeDataString(area);
+            var uri = new Uri(_baseUri, $"?area={urlEncodedArea}");
             var factory = _serviceLocator.CreateHttpClientFactory();
-            var client = factory.CreateClient();
 
-            var response = await client.GetAsync(uri);
-
-            if (response.IsSuccessStatusCode)
+            using (var client = factory.CreateClient())
             {
-                var data = await response.Content.ReadAsStringAsync();
-                return data.ToString();
-            }
+                client.DefaultRequestHeaders.Add("User-Agent", "ShivShell GitHub/matovich");
+                var response = await client.GetAsync(uri);
 
-            throw new GetWeatherAlertsFailedException(response.StatusCode, response.ReasonPhrase ?? "(no reason)", area);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    return data.ToString();
+                }
+                throw new GetWeatherAlertsFailedException(response.StatusCode, response.ReasonPhrase ?? "(no reason)", area);
+            }
         }
     }
 }

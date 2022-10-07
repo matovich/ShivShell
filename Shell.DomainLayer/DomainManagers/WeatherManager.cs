@@ -1,10 +1,12 @@
 ﻿using Shell.DomainLayer.Gateways;
 using Shell.DomainLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Shell.DomainLayer.DomainManagers
 {
+    // RULE:  Managers do not talk to other managers
     internal class WeatherManager : DomainManagerBase
     {
         WeatherGateway? _WeatherGateway;
@@ -15,12 +17,19 @@ namespace Shell.DomainLayer.DomainManagers
 
         public IEnumerable<WeatherForcastDTO> GetForcast()
         {
-            return TheDataFacade.GetWeatherForcast("TX");
+            return TheDataFacade.GetWeatherForcast();
         }
 
         public async Task<string> GetWeatherAlertsAsync(string area)
         {
+            var validArea = AreaValidator(area);
             return await TheWeatherGateway.GetWeatherAlertsAsync(area);
+        }
+
+        // RULE: Validation done in Managers
+        private string AreaValidator(string area)
+        {
+            return area.Substring(0, 2);
         }
     }
 }

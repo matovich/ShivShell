@@ -6,7 +6,7 @@ namespace Shell.DomainLayer.DataLayer
 {
     internal sealed class DataFacade
     {
-        public IEnumerable<WeatherForcastDTO> GetWeatherForcast(string zone)
-            => WeatherDataManager.GetWeather(zone);
+        public IEnumerable<WeatherForcastDTO> GetWeatherForcast()
+            => WeatherDataManager.GetWeather();
     }
 }

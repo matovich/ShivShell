@@ -12,7 +12,7 @@ namespace Shell.DomainLayer.DataLayer.DataManagers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        internal static IEnumerable<WeatherForcastDTO> GetWeather(string zone)
+        internal static IEnumerable<WeatherForcastDTO> GetWeather()
         {
             var rng = new Random();
             return Enumerable.Range(1, 7).Select(index =>
