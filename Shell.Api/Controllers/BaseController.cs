@@ -3,7 +3,9 @@ using Shell.DomainLayer;
 
 namespace Shell.Api.Controllers
 {
-    public class BaseController : ControllerBase
+    [ApiController]
+    [Route("[controller]")]
+    public abstract class BaseController : ControllerBase
     {
         private readonly DomainFacade domainFacade;
 

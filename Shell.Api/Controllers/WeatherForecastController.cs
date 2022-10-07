@@ -4,18 +4,18 @@ using Shell.DomainLayer;
 
 namespace Shell.Api.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : BaseController
-    {
-        private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, DomainFacade domainFacade) : base(domainFacade)
+    [Route("weather")]
+    public class WeatherController : BaseController
+    {
+        private readonly ILogger<WeatherController> _logger;
+
+        public WeatherController(ILogger<WeatherController> logger, DomainFacade domainFacade) : base(domainFacade)
         {
             _logger = logger;
         }
 
-        [HttpGet("GetWeatherForcast", Name = nameof(GetForcast))]
+        [HttpGet("forcast", Name = nameof(GetForcast))]
         public ActionResult GetForcast()
         {
             var forcast = TheDomainFacade.GetWeatherForcast();
@@ -27,7 +27,7 @@ namespace Shell.Api.Controllers
         /// </summary>
         /// <param name="area">Two-character state code.</param>
         /// <returns></returns>
-        [HttpGet("GetWeatherAlerts{area}", Name = nameof(GetAlertsAsync))]
+        [HttpGet("alerts/{area}", Name = nameof(GetAlertsAsync))]
         public async Task<ActionResult> GetAlertsAsync(string area)
         {
             return Ok(await TheDomainFacade.GetWeatherAlertsAsync(area));
