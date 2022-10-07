@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Shell.Api.Models;
 using Shell.DomainLayer;
-using Shell.DomainLayer.Models;
 
 namespace Shell.Api.Controllers
 {
@@ -18,7 +18,8 @@ namespace Shell.Api.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForcastDTO> Get()
         {
-            return TheDomainFacade.GetWeatherForcast();
+            var forcast = TheDomainFacade.GetWeatherForcast();
+            return forcast.Select(f => new WeatherForcastDTO(f));
         }
     }
 }
