@@ -23,7 +23,7 @@ namespace Shell.DomainLayer.DomainManagers
         public async Task<string> GetWeatherAlertsAsync(string area)
         {
             var validArea = AreaValidator(area);
-            return await TheWeatherGateway.GetWeatherAlertsAsync(area);
+            return await TheWeatherGateway.GetWeatherAlertsAsync(validArea);
         }
 
         // RULE: Validation done in Managers
