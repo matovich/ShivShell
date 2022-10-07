@@ -1,9 +1,10 @@
 ﻿using System;
 
-[Serializable]
 namespace Shell.DomainLayer.Exceptions.GatewayExceptions
 {
-    internal class GetWeatherAlertsFailedException
+
+    [Serializable]
+    internal class GetWeatherAlertsFailedException : Exception
     {
         readonly System.Net.HttpStatusCode _statusCode;
         readonly string _message;

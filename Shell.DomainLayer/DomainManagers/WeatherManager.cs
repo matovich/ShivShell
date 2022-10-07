@@ -1,4 +1,6 @@
-﻿using Shell.DomainLayer.Models;
+﻿using Shell.DomainLayer.DataLayer;
+using Shell.DomainLayer.Gateways;
+using Shell.DomainLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,20 +23,14 @@ namespace Shell.DomainLayer.DomainManagers
             _serviceLocator = serviceLocator;
         }
 
-        public async Task<BoardgameForGet> CreateNewBoardgameAsync(BoardgameForCreate boardgameForCreate, AuthenticatedContext authContext)
+        public void GetForcast()
         {
-            var response = await TheBoardgameGeekGateway.SearchForGameAsync(boardgameForCreate.Name);
-
-            var createdBoardgame = TheDataFacade.CreateBoardgame(boardgameForCreate);
-
-            return createdBoardgame;
+            Task<string> wa = TheWeatherGateway.GetWeatherAlertsAsync("TX");
         }
 
-        public IReadOnlyList<BoardgameForGet> GetAllBoardgames(AuthenticatedContext authContext)
+        public WeatherForcastDTO GetAllBoardgames(AuthenticatedContext authContext)
         {
-            var allBoardgames = TheDataFacade.GetAllBoardgames();
-
-            return allBoardgames;
+            return TheDataFacade.GetWeather("TX");
         }
     }
 }

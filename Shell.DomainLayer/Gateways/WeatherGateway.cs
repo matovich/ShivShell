@@ -1,7 +1,6 @@
 ﻿using Shell.DomainLayer.Exceptions.GatewayExceptions;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Shell.DomainLayer.Gateways
@@ -19,11 +18,6 @@ namespace Shell.DomainLayer.Gateways
 
         public async Task<string> GetWeatherAlertsAsync(string area)
         {
-            if(string.IsNullOrEmpty(area))
-            {
-                area = "TX";
-            }
-
             var urlEncodedArea = System.Uri.EscapeDataString(area);
 
             var uri = new System.Uri(_baseUri, $"?area={urlEncodedArea}");

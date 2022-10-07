@@ -1,4 +1,5 @@
-﻿using Shell.DomainLayer.Gateways;
+﻿using Shell.DomainLayer.DataLayer;
+using Shell.DomainLayer.Gateways;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 

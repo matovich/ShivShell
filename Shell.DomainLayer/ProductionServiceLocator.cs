@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using Shell.DomainLayer.DataLayer;
+using Shell.DomainLayer.Gateways;
+using System.Net.Http;
 
 namespace Shell.DomainLayer
 {
@@ -10,9 +12,9 @@ namespace Shell.DomainLayer
             _httpClientFactory = httpClientFactory;
         }
 
-        protected override BoardgameGeekGateway CreateWeatherGatewayCore()
+        protected override WeatherGateway CreateWeatherGatewayCore()
         {
-            return new BoardgameGeekGateway(this);
+            return new WeatherGateway(this);
         }
 
         protected override DataFacade CreateDataFacadeCore()
