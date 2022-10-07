@@ -30,7 +30,7 @@ namespace Shell.DomainLayer.Gateways
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
-                return data;
+                return data.ToString();
             }
 
             throw new GetWeatherAlertsFailedException(response.StatusCode, response.ReasonPhrase ?? "(no reason)", area);

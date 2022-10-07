@@ -15,11 +15,17 @@ namespace Shell.Api.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForcastDTO> Get()
+        [HttpGet("GetWeatherForcast", Name = nameof(GetForcast))]
+        public ActionResult GetForcast()
         {
             var forcast = TheDomainFacade.GetWeatherForcast();
-            return forcast.Select(f => new WeatherForcastDTO(f));
+            return Ok(forcast.Select(f => new WeatherForcastDTO(f)));
+        }
+
+        [HttpGet("GetWeatherAlerts", Name = nameof(GetAlertsAsync))]
+        public async Task<ActionResult> GetAlertsAsync()
+        {
+            return Ok(await TheDomainFacade.GetWeatherAlertsAsync("TX"));
         }
     }
 }
