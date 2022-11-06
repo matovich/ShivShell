@@ -15,7 +15,7 @@ namespace Shell.Api.Controllers
             _logger = logger;
         }
 
-        [HttpGet("forcast", Name = nameof(GetForcast))]
+        [HttpGet("forecast", Name = nameof(GetForcast))]
         public ActionResult GetForcast()
         {
             var forcast = TheDomainFacade.GetWeatherForcast();
@@ -23,7 +23,7 @@ namespace Shell.Api.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Weather alerts by U.S. state.
         /// </summary>
         /// <param name="area">Two-character state code.</param>
         /// <returns></returns>

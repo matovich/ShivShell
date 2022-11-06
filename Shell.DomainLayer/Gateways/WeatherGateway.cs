@@ -24,15 +24,24 @@ namespace Shell.DomainLayer.Gateways
 
             using (var client = factory.CreateClient())
             {
+                // client.Timeout = TimeSpan.FromSeconds(20); // default timeout is 100,000 ms
                 client.DefaultRequestHeaders.Add("User-Agent", "ShivShell GitHub/matovich");
-                var response = await client.GetAsync(uri);
-
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    var data = await response.Content.ReadAsStringAsync();
-                    return data.ToString();
+                    var response = await client.GetAsync(uri);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var data = await response.Content.ReadAsStringAsync();
+                        return data.ToString();
+                    }
+
+                    throw new GetWeatherAlertsFailedException(response.StatusCode, response.ReasonPhrase ?? "(no reason)", area);
                 }
-                throw new GetWeatherAlertsFailedException(response.StatusCode, response.ReasonPhrase ?? "(no reason)", area);
+                catch (TaskCanceledException)
+                {
+                    throw new GetWeatherAlertsFailedException(System.Net.HttpStatusCode.RequestTimeout, "Third party timeout", area);
+                }
             }
         }
     }

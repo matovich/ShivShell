@@ -13,7 +13,7 @@ namespace Shell.DomainLayer.DomainManagers
         WeatherGateway TheWeatherGateway => _WeatherGateway ??= _serviceLocator.CreateWeatherGateway();
 
 
-        public WeatherManager(ServiceLocator serviceLocator) : base(serviceLocator) {}
+        public WeatherManager(ServiceLocator serviceLocator) : base(serviceLocator) { }
 
         public IEnumerable<WeatherForcastDTO> GetForcast()
         {
@@ -23,7 +23,7 @@ namespace Shell.DomainLayer.DomainManagers
         public async Task<string> GetWeatherAlertsAsync(string area)
         {
             var validArea = AreaValidator(area);
-            return await TheWeatherGateway.GetWeatherAlertsAsync(validArea);
+            return await TheWeatherGateway.GetWeatherAlertsAsync(validArea.ToUpper());
         }
 
         // RULE: Validation done in Managers
