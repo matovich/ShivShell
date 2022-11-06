@@ -12,6 +12,7 @@ namespace Shell.DomainLayer.DataLayer.DataManagers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
+        /// <summary> This would hit the database but is a simulation here. </summary>
         internal static IEnumerable<WeatherForcastDTO> GetWeather()
         {
             var rng = new Random();
