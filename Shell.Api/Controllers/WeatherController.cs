@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Shell.Api.Models;
 using Shell.DomainLayer;
+using Shell.DomainLayer.Exceptions;
+using Shell.DomainLayer.Exceptions.GatewayExceptions;
 
 namespace Shell.Api.Controllers
 {
-
     [Route("weather")]
     public class WeatherController : BaseController
     {
@@ -16,7 +18,7 @@ namespace Shell.Api.Controllers
         }
 
         [HttpGet("forecast", Name = nameof(GetForcast))]
-        public ActionResult GetForcast()
+        public IActionResult GetForcast()
         {
             var forcast = TheDomainFacade.GetWeatherForcast();
             return Ok(forcast.Select(f => new WeatherForcastDTO(f)));
@@ -28,9 +30,16 @@ namespace Shell.Api.Controllers
         /// <param name="area">Two-character state code.</param>
         /// <returns></returns>
         [HttpGet("alerts/{area}", Name = nameof(GetAlertsAsync))]
-        public async Task<ActionResult> GetAlertsAsync(string area)
+        public async Task<IActionResult> GetAlertsAsync(string area)
         {
-            return Ok(await TheDomainFacade.GetWeatherAlertsAsync(area));
+            try
+            {
+                var result = await TheDomainFacade.GetWeatherAlertsAsync(area);
+                return Ok(result);
+            }
+            catch (HttpStatusException ex) {
+                return GetErrorResponse(ex);
+            }
         }
     }
 }

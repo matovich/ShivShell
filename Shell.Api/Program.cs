@@ -1,13 +1,20 @@
 using Shell.DomainLayer;
 using System.Reflection;
+using Microsoft.AspNetCore.HttpLogging;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddHttpLogging(opts => opts.LoggingFields = HttpLoggingFields.RequestProperties);
+builder.Logging.AddFilter("Microsoft.AspNetCore.HttpLogging", LogLevel.Information);
+
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<DomainFacade>();
 
 builder.Services.AddControllers();
+
+builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddControllers().AddXmlSerializerFormatters();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -24,13 +31,17 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    app.UseHttpLogging();
     app.UseDeveloperExceptionPage();
 }
+
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();

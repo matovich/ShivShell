@@ -4,7 +4,7 @@ using System.Net.Http;
 
 namespace Shell.DomainLayer
 {
-    class ProductionServiceLocator : ServiceLocator
+    internal class ProductionServiceLocator : ServiceLocator
     {
         readonly IHttpClientFactory _httpClientFactory;
         public ProductionServiceLocator(IHttpClientFactory httpClientFactory) : base()

@@ -36,11 +36,11 @@ namespace Shell.DomainLayer.Gateways
                         return data.ToString();
                     }
 
-                    throw new GetWeatherAlertsFailedException(response.StatusCode, response.ReasonPhrase ?? "(no reason)", area);
+                    throw new GetWeatherAlertsException(response.StatusCode, response.ReasonPhrase ?? "(no reason)", area);
                 }
                 catch (TaskCanceledException)
                 {
-                    throw new GetWeatherAlertsFailedException(System.Net.HttpStatusCode.RequestTimeout, "Third party timeout", area);
+                    throw new GetWeatherAlertsException(System.Net.HttpStatusCode.RequestTimeout, "Third party timeout", area);
                 }
             }
         }
