@@ -24,7 +24,7 @@ namespace Shell.DomainLayer.Gateways
 
             using (var client = factory.CreateClient())
             {
-                // client.Timeout = TimeSpan.FromSeconds(20); // default timeout is 100,000 ms
+                // client.Timeout = TimeSpan.FromMilliseconds(1); // default timeout is 100,000 ms
                 client.DefaultRequestHeaders.Add("User-Agent", "ShivShell GitHub/matovich");
                 try
                 {

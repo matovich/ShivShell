@@ -32,14 +32,8 @@ namespace Shell.Api.Controllers
         [HttpGet("alerts/{area}", Name = nameof(GetAlertsAsync))]
         public async Task<IActionResult> GetAlertsAsync(string area)
         {
-            try
-            {
-                var result = await TheDomainFacade.GetWeatherAlertsAsync(area);
-                return Ok(result);
-            }
-            catch (HttpStatusException ex) {
-                return GetErrorResponse(ex);
-            }
+            var result = await TheDomainFacade.GetWeatherAlertsAsync(area);
+            return Ok(result);
         }
     }
 }

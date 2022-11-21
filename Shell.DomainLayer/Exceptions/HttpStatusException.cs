@@ -12,6 +12,11 @@ namespace Shell.DomainLayer.Exceptions
             StatusCode = statusCode;
         }
 
+        public HttpStatusException(HttpStatusCode statusCode, string message) : base(message) 
+        { 
+            StatusCode = statusCode;
+        }
+
 
         public HttpStatusCode StatusCode { get; init; }
     }

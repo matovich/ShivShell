@@ -1,6 +1,7 @@
 using Shell.DomainLayer;
 using System.Reflection;
 using Microsoft.AspNetCore.HttpLogging;
+using Shell.Api.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,10 @@ builder.Logging.AddFilter("Microsoft.AspNetCore.HttpLogging", LogLevel.Informati
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<DomainFacade>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(new GlobalAsyncExceptionfilter());
+});
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddControllers().AddXmlSerializerFormatters();
@@ -34,6 +38,10 @@ if (app.Environment.IsDevelopment())
 
     app.UseHttpLogging();
     app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler();
 }
 
 
