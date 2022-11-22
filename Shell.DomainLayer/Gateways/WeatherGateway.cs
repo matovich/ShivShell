@@ -36,7 +36,7 @@ namespace Shell.DomainLayer.Gateways
                         return data.ToString();
                     }
 
-                    throw new GetWeatherAlertsException(response.StatusCode, response.ReasonPhrase ?? "(no reason)", area);
+                    throw new GetWeatherAlertsException(response.StatusCode, response.ReasonPhrase, area);
                 }
                 catch (TaskCanceledException)
                 {
