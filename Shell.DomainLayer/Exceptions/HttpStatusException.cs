@@ -5,7 +5,7 @@ namespace Shell.DomainLayer.Exceptions
 {
 
     [Serializable]
-    public class HttpStatusException : Exception
+    public abstract class HttpStatusException : Exception
     {
         public HttpStatusException(HttpStatusCode statusCode)
         {
@@ -19,5 +19,12 @@ namespace Shell.DomainLayer.Exceptions
 
 
         public HttpStatusCode StatusCode { get; init; }
+
+        public virtual string ErrorTitle { get { return "An error occurred"; } }
+
+        public override string ToString()
+        {
+            return $"The status code [{StatusCode}] was received with the message {Message}.";
+        }
     }
 }

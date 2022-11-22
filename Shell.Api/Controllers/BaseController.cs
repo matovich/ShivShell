@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shell.DomainLayer;
-using Shell.DomainLayer.Exceptions;
-using Shell.DomainLayer.Exceptions.GatewayExceptions;
 
 namespace Shell.Api.Controllers
 {

@@ -14,9 +14,9 @@ namespace Shell.Api.Filters
                 var error = new ProblemDetails
                 {
                     Type = $"https://httpstatuses.com/{(int)ex.StatusCode}",
-                    Title = "An error occurred",
-                    Detail = ex.Message,
-                    Status = (int)ex.StatusCode
+                    Title = ex.ErrorTitle,
+                    Detail = ex.ToString(),
+                    Status = (int)ex.StatusCode,
                 };
 
                 context.Result = new ObjectResult(error) { StatusCode = (int)ex.StatusCode };
