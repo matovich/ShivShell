@@ -16,9 +16,6 @@ namespace Shell.DomainLayer.Exceptions.GatewayExceptions
 
         public override string ErrorTitle => "An exception occurred while getting weather alerts." ;
 
-        public override string ToString()
-        {
-            return $"Status code [{StatusCode}] when searching for alert area {_areaName}. Message: {Message}";
-        }
+        public override string ToString() => $"Status code [{StatusCode}] when searching for alert area {_areaName}. Message: {Message}";
     }
 }

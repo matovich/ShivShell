@@ -29,7 +29,10 @@ namespace Shell.DomainLayer.DomainManagers
         // RULE: Validation done in Managers
         private string AreaValidator(string area)
         {
-            return area.Substring(0, 2);
+            if(area.Length > 2)
+                return area.Substring(0, 2);
+
+            return area;
         }
     }
 }

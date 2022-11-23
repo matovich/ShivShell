@@ -1,13 +1,14 @@
 using Shell.DomainLayer;
 using System.Reflection;
-using Microsoft.AspNetCore.HttpLogging;
 using Shell.Api.Filters;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddHttpLogging(opts => opts.LoggingFields = HttpLoggingFields.RequestProperties);
-builder.Logging.AddFilter("Microsoft.AspNetCore.HttpLogging", LogLevel.Information);
+builder.Host.UseSerilog((ctx, lc) => lc
+    .WriteTo.Console()
+    .WriteTo.File("""C:\Logs\ShivShellLog.txt""", rollingInterval: RollingInterval.Day));
 
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<DomainFacade>();
@@ -35,7 +36,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    app.UseHttpLogging();
     app.UseDeveloperExceptionPage();
 }
 else
