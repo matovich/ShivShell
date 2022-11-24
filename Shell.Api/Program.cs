@@ -6,12 +6,13 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Host.UseSerilog((ctx, lc) => lc
-    .WriteTo.Console()
-    .WriteTo.File("""C:\Logs\ShivShellLog.txt""", rollingInterval: RollingInterval.Day));
-
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<DomainFacade>();
+var _logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext().CreateLogger();
+
+builder.Logging.AddSerilog(_logger);
+builder.Host.UseSerilog(_logger);
 
 builder.Services.AddControllers(options =>
 {
@@ -43,6 +44,7 @@ else
     app.UseExceptionHandler();
 }
 
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
