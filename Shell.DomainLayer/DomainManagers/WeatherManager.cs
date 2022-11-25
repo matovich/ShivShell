@@ -2,6 +2,7 @@
 using Shell.DomainLayer.Models;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Shell.DomainLayer.DomainManagers
@@ -9,6 +10,8 @@ namespace Shell.DomainLayer.DomainManagers
     // RULE:  Managers do not talk to other managers
     internal class WeatherManager : DomainManagerBase
     {
+        Serilog.ILogger ILog = Serilog.Log.ForContext<WeatherManager>();
+
         WeatherGateway? _WeatherGateway;
         WeatherGateway TheWeatherGateway => _WeatherGateway ??= _serviceLocator.CreateWeatherGateway();
 
@@ -22,6 +25,7 @@ namespace Shell.DomainLayer.DomainManagers
 
         public async Task<string> GetWeatherAlertsAsync(string area)
         {
+            ILog.Information("Example message posted to Serilog.");
             var validArea = AreaValidator(area);
             return await TheWeatherGateway.GetWeatherAlertsAsync(validArea.ToUpper());
         }

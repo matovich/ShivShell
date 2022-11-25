@@ -8,9 +8,12 @@ namespace Shell.Api.Filters
     {
         public Task OnExceptionAsync(ExceptionContext context)
         {
+
+
             var ex = context.Exception as HttpStatusException;
             if (ex != null)
             {
+                Serilog.Log.Error(ex, ex.Message);
                 var error = new ProblemDetails
                 {
                     Type = $"https://httpstatuses.com/{(int)ex.StatusCode}",

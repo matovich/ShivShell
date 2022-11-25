@@ -2,17 +2,20 @@ using Shell.DomainLayer;
 using System.Reflection;
 using Shell.Api.Filters;
 using Serilog;
+using Serilog.ExceptionalLogContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<DomainFacade>();
-var _logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext().CreateLogger();
+Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration)
+    //.Enrich.WithExceptionalLogContext()
+    //.Enrich.FromLogContext()
+    .CreateLogger();
 
-builder.Logging.AddSerilog(_logger);
-builder.Host.UseSerilog(_logger);
+builder.Logging.AddSerilog(Log.Logger);
+builder.Host.UseSerilog(Log.Logger);
 
 builder.Services.AddControllers(options =>
 {
@@ -54,3 +57,5 @@ app.MapControllers();
 
 
 app.Run();
+
+Log.CloseAndFlush();
